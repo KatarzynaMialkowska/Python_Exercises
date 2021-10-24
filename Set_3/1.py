@@ -4,12 +4,12 @@ Author:
     Katarzyna Miałkowska
 """
 
-#will compile, but no semicolons are needed
+#will compile, but no semicolons are needed after x and y
 x = 2; y = 3
 if (x > y):
-    result = x
+    result = x;
 else:
-    result = y
+    result = y;
 
 #SyntaxError: invalid syntax
 """
