@@ -12,8 +12,7 @@ print("To stop the program type 'stop'")
 
 while(value != "stop"):
     try:
-        raw_input = input
-        value = raw_input("Enter a number: ")
+        value = input("Enter a number: ")
         value = float(value)
         print(f"{value}., {pow(value, 3)}.")
         
