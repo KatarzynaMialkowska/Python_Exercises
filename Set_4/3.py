@@ -7,6 +7,7 @@ Author:
 """
 
 def iterative_factorial(n: int):
+    if(n == 1 or n == 0): return 1
     if n > 1: 
         f = 1
         for i in range(1, n+1):
@@ -17,4 +18,5 @@ def iterative_factorial(n: int):
         
         
 print(iterative_factorial(3))
+print(iterative_factorial(0))
 print(iterative_factorial(-2))
