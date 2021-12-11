@@ -11,4 +11,8 @@ def heron(a, b, c):
         return math.sqrt((a+b+c)*(a+b-c)*(a-b+c)*(-a+b+c))/4
 
 
-print(heron(1, 1, 1))
+try:
+    print(heron(1, 1, 1))
+    print(heron(1, 1, -1))
+except ValueError:
+    print("przechwycenie ValueError")
