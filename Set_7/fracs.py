@@ -9,7 +9,8 @@ class Frac:
     def __init__(self, x=0, y=1):
         # Sprawdzamy, czy y=0.
         if(y == 0):
-            print("ERROR: denominator  can't be 0: {}/{}".format(x, y))
+            raise ValueError(
+                "ERROR: denominator  can't be 0: {}/{}".format(x, y))
         else:
             if(isinstance(x, int) and isinstance(y, int)):
                 div = gcd(x, y)
