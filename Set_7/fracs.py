@@ -8,20 +8,17 @@ class Frac:
 
     def __init__(self, x=0, y=1):
         # Sprawdzamy, czy y=0.
-        try:
-            if(y == 0):
-                raise ValueError
-            else:
-                if(isinstance(x, int) and isinstance(y, int)):
-                    div = gcd(x, y)
-                    self.x = int(x / div)
-                    self.y = int(y / div)
-                else:
-                    tem = x.as_integer_ratio()
-                    self.x = tem[0]
-                    self.y = tem[1]
-        except ValueError:
+        if(y == 0):
             print("ERROR: denominator  can't be 0: {}/{}".format(x, y))
+        else:
+            if(isinstance(x, int) and isinstance(y, int)):
+                div = gcd(x, y)
+                self.x = x // div
+                self.y = y // div
+            else:
+                tem = x.as_integer_ratio()
+                self.x = tem[0]
+                self.y = tem[1]
 
     def __str__(self):         # zwraca "x/y" lub "x" dla y=1
         if(self.y == 1):
@@ -56,10 +53,12 @@ class Frac:
         return self.x/self.y >= other.x/other.y
 
     def __add__(self, other):
+        if isinstance(other, int):
+            other = Frac(other, 1)
         result = [int(self.x*other.y + self.y*other.x), int(self.y*other.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     __radd__ = __add__
@@ -67,17 +66,19 @@ class Frac:
     def __radd__(self, other):
         result = [int(other*self.y + 1*self.x), int(1*self.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
         # int+frac
 
     def __sub__(self, other):
+        if isinstance(other, int):
+            other = Frac(other, 1)
         result = [int(self.x*other.y - self.y*other.x), int(self.y*other.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     __rsub__ = __sub__              # int-frac
@@ -90,10 +91,12 @@ class Frac:
         return Frac(result[0], result[1])
 
     def __mul__(self, other):   # frac1*frac2, frac*int
+        if isinstance(other, int):
+            other = Frac(other, 1)
         result = [int(self.x*other.x), int(self.y*other.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     __rmul__ = __mul__              # int*frac
@@ -101,15 +104,17 @@ class Frac:
     def __rmul__(self, other):   # frac1*frac2, frac*int
         result = [int(self.x*other), int(self.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     def __truediv__(self, other):  # frac1/frac2, frac/int, Py3
+        if isinstance(other, int):
+            other = Frac(other, 1)
         result = [int(self.x*other.y), int(self.y*other.x)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     __rtruediv__ = __truediv__
@@ -117,8 +122,8 @@ class Frac:
     def __rtruediv__(self, other):  # int/frac, Py3
         result = [int(self.x*1), int(self.y*other)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     # operatory jednoargumentowe
@@ -164,13 +169,16 @@ class TestTime(unittest.TestCase):
         self.assertEqual(Frac(1, 2) - Frac(1, 2), Frac(0))
         self.assertEqual(Frac(3, 2) - Frac(1, 2), Frac(1, 1))
         self.assertEqual(1 - Frac(1, 2), Frac(1, 2))
+        self.assertEqual(Frac(4, 2) - 1, Frac(1, 1))
 
     def test_add(self):
         self.assertEqual(2 + Frac(1, 2), Frac(5, 2))
         self.assertEqual(Frac(0.25) + Frac(0.25), Frac(1, 2))
+        self.assertEqual(Frac(1, 2) + 2, Frac(5, 2))
 
     def test_mul(self):
         self.assertEqual(3 * Frac(2, 2), Frac(3, 1))
+        self.assertEqual(Frac(2, 2) * 3, Frac(3, 1))
         self.assertEqual(Frac(0.25) * Frac(0.25), Frac(1, 16))
 
     def test_div(self):
