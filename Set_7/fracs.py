@@ -87,8 +87,8 @@ class Frac:
     def __rsub__(self, other):
         result = [int(other*self.y - 1*self.x), int(1*self.y)]
         div = gcd(result[0], result[1])
-        result[0] = int(result[0] / div)
-        result[1] = int(result[1] / div)
+        result[0] = result[0] // div
+        result[1] = result[1] // div
         return Frac(result[0], result[1])
 
     def __mul__(self, other):   # frac1*frac2, frac*int
