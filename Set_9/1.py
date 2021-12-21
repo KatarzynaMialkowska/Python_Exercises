@@ -71,6 +71,7 @@ class SingleList:
     def remove_tail(self):          # klasy O(n)
         if self.is_empty():
             raise ValueError("pusta lista")
+        bye = self.tail
         if self.head == self.tail:   # self.length == 1
             self.head = self.tail = None
         else:
@@ -82,22 +83,17 @@ class SingleList:
             self.tail = iter
             node = None
         self.length -= 1
-        return self   # zwracamy usuwany node
+        return bye   # zwracamy usuwany node
 
     def join(self, other):
-        if other.is_empty():
-            raise ValueError("pusta lista")
-        if other.head == other.tail:   # self.length == 1
-            node = other.head
-            self.insert_tail(Node(node))
-            self.head = self.tail = None
-        else:
-            node = other.head
-            while(node != other.tail):
-                iter = node
-                node = node.next
-                self.insert_tail(Node(iter))
-                other.remove_tail()
+        if self.is_empty():
+            self.head = other.head
+            self.tail = other.tail
+            other.head = other.tail = None
+        elif not other.is_empty():
+            self.tail.next = other.head
+            self.tail = other.head
+            other.head = other.tail = None
         return self
 
     def clear(self):     # czyszczenie listy
@@ -146,17 +142,27 @@ for item in alistTest:   # kolejność 22, 11, 33
 
 
 alistTest.remove_tail()         # [22, 11, 33]
-alistTest.remove_tail()         # [22, 11, 33]
+alistTest.remove_tail()         # [22, 11]
 
-print("============")
-for item in alistTest:   # kolejność 22, 11, 33
+print("=====alistTest=======")
+for item in alistTest:   # kolejność 22, 11
+    print(item)
+
+print("=====alist=======")
+for item in alist:   # kolejność  11,33
     print(item)
 
 elo = alist.join(alistTest)
 print("======join======")
+print("======alistTest======")
 for item in alistTest:   # kolejność 22, 11, 33
     print(item)
-print("============")
+print("=====alist=======")
+
+for item in alist:   # kolejność 22, 11, 33
+    print(item)
+
+print("=====elo=======")
 
 for item in elo:   # kolejność 22, 11, 33
     print(item)
