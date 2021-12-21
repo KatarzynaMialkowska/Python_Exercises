@@ -23,8 +23,6 @@ class Queue:
     def remove(self):   # zwraca losowy element
         move = random.randint(1, self.size())
         iter = self.head
-        print("aaaaaa")
-        print(move)
         if move == 1:
             return self.get()
         elif move == self.size():
