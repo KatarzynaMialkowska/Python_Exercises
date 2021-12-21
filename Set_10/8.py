@@ -21,34 +21,43 @@ class Queue:
             self.tail = self.tail.next
 
     def remove(self):   # zwraca losowy element
-        move = random.randint(0, self.size())
+        move = random.randint(1, self.size())
         iter = self.head
-        for x in range(0, move-1):
-            print("move" + move-1)
-            iter = iter.next
-
-        iter.prev.next = iter.next
-        iter.next.prev = iter.prev
-        iter.data = 0
+        print("aaaaaa")
+        print(move)
+        if move == 1:
+            return self.get()
+        elif move == self.size():
+            result = self.tail.data
+            self.tail = self.tail.prev
+            self.tail.next = None
+            return result
+        else:
+            for x in range(1, move):
+                iter = iter.next
+            result = iter.data
+            iter.prev.next = iter.next
+            iter.next.prev = iter.prev
+            return result
 
     def get(self):
         if self.head is None:
             return None
         else:
-            temp = self.head.data
+            iter = self.head.data
             self.head = self.head.next
             self.head.prev = None
-            return temp
+            return iter
 
     def first(self):
         return self.head.data
 
     def size(self):
-        temp = self.head
+        iter = self.head
         count = 0
-        while temp is not None:
+        while iter is not None:
             count = count + 1
-            temp = temp.next
+            iter = iter.next
         return count
 
     def is_empty(self):
@@ -61,10 +70,10 @@ class Queue:
         self.head = self.tail = None
 
     def view(self):
-        temp = self.head
-        while temp is not None:
-            print(temp.data, end="-")
-            temp = temp.next
+        iter = self.head
+        while iter is not None:
+            print(iter.data, end="-")
+            iter = iter.next
 
 
 if __name__ == '__main__':
@@ -76,8 +85,8 @@ if __name__ == '__main__':
     queue.insert(4)
 
     queue.view()
-    queue.remove()
-    print("empty: ", queue.is_empty())
+    print(f"remove: {queue.remove()}")
+    print(f"empty: {queue.is_empty()}")
     queue.view()
     queue.clear()
-    print("empty:", queue.is_empty())
+    print(f"\nempty: {queue.is_empty()}")
